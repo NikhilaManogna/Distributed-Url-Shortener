@@ -7,14 +7,14 @@ Designed to demonstrate core backend engineering concepts such as caching, concu
 
 ##  Features
 
-- Generate short URLs using Base62 encoding
-- High-performance redirection using Redis caching
-- API rate limiting using Redis + Lua scripts
-- Click analytics (total, hourly, daily)
-- Asynchronous click count synchronization
-- Automatic cleanup of expired URLs
-- OpenAPI / Swagger documentation
-- Fully containerized with Docker
+- URL shortening with Base62 encoding
+- Redis-based caching for fast redirects
+- Click analytics (total, daily, hourly)
+- Rate limiting using Redis
+- Scheduled cleanup for expired URLs
+- Background sync of click counts to database
+- Fully containerized using Docker
+- Interactive API documentation with Swagger
 
 ---
 
@@ -147,6 +147,16 @@ cd Distributed-Url-Shortener
 docker compose up --build
 ```
 
+### Running Locally without Docker
+
+1. Configure `application-dev.yml`
+2. Start Redis locally
+3. Start PostgreSQL locally
+4. Run the Spring Boot application via:
+
+```
+./mvnw spring-boot:run
+```
 
 ---
 
@@ -178,3 +188,12 @@ The application is fully containerized and can be deployed on:
 - GCP (Cloud Run)
 - Azure Container Apps
 - Render / Fly.io
+
+## Contributing
+
+Contributions are welcome!  
+To contribute:
+1. Fork the repo
+2. Create a feature branch
+3. Commit your changes
+4. Open a pull request

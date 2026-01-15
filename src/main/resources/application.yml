@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: docker
+
+rate-limit:
+  shorten:
+    max-requests: 2
+    window-seconds: 60
+  redirect:
+    max-requests: 2
+    window-seconds: 60

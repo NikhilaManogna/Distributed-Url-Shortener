@@ -26,7 +26,6 @@ public class RedirectController {
 
         String clientIp = request.getRemoteAddr();
 
-        // 2️⃣ Then resolve URL
         String originalUrl = shortUrlService.getOriginalUrlAndIncrement(shortCode);
 
         return ResponseEntity

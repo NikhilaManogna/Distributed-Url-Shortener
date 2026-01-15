@@ -44,14 +44,12 @@ public class GlobalRateLimitInterceptor implements HandlerInterceptor {
 
         long remaining = Math.max(0, LIMIT - current);
 
-        // ✅ Headers ALWAYS set
         response.setHeader("X-RateLimit-Limit", String.valueOf(LIMIT));
         response.setHeader("X-RateLimit-Remaining", String.valueOf(remaining));
         response.setHeader("X-RateLimit-Reset", String.valueOf(
                 ttl > 0 ? ttl : WINDOW_SECONDS
         ));
 
-        // 🚨 BLOCK
         if (current > LIMIT) {
             throw new RateLimitExceededException("Too many requests");
         }

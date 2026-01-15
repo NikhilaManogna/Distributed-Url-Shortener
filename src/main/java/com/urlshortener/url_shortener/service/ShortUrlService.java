@@ -46,7 +46,7 @@ public class ShortUrlService {
     @Transactional
     public ShortUrl createShortUrl(String originalUrl, Long ttlSeconds) {
 
-        log.info("🔥 USING REDIS ID + BASE62 FLOW 🔥");
+        log.info("USING REDIS ID + BASE62 FLOW");
 
         long id = redisIdGenerator.nextId();
         String shortCode = base62Encoder.encode(id);
@@ -82,14 +82,12 @@ public class ShortUrlService {
 
         String cacheKey = "url:" + shortCode;
 
-        // 1️⃣ Try Redis first
         String cachedUrl = redisTemplate.opsForValue().get(cacheKey);
         if (cachedUrl != null) {
             incrementClick(shortCode);
             return cachedUrl;
         }
 
-        // 2️⃣ Fallback to DB
         ShortUrl shortUrl = repository.findByShortCode(shortCode)
                 .orElseThrow(() -> new ShortUrlNotFoundException("Short URL not found"));
 
@@ -98,7 +96,6 @@ public class ShortUrlService {
             throw new UrlExpiredException("Short URL expired");
         }
 
-        // 3️⃣ Cache again
         if (shortUrl.getExpiresAt() != null) {
             long ttlSeconds = Duration.between(
                     LocalDateTime.now(),

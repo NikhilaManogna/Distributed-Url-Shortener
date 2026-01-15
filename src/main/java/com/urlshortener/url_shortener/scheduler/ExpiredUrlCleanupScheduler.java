@@ -27,11 +27,10 @@ public class ExpiredUrlCleanupScheduler {
     @Scheduled(cron = "*/30 * * * * *")
     public void cleanup() {
 
-        log.info("🧹 Running expired URL cleanup");
+        log.info("Running expired URL cleanup");
 
         LocalDateTime now = LocalDateTime.now();
 
-        // 1️⃣ Fetch expired short codes FIRST
         List<String> expiredCodes = repository.findExpiredShortCodes(now);
 
         if (expiredCodes.isEmpty()) {
@@ -39,15 +38,13 @@ public class ExpiredUrlCleanupScheduler {
             return;
         }
 
-        // 2️⃣ Delete from DB
         int deleted = repository.deleteExpired(now);
 
-        // 3️⃣ Evict Redis cache
         expiredCodes.forEach(code -> {
             redisTemplate.delete("url:" + code);
             redisTemplate.delete("click:count:" + code);
         });
 
-        log.info("✅ Cleanup completed — {} expired URLs removed", deleted);
+        log.info("Cleanup completed — {} expired URLs removed", deleted);
     }
 }

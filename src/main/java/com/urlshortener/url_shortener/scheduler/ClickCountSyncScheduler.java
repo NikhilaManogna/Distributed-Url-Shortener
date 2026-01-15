@@ -39,7 +39,7 @@ public class ClickCountSyncScheduler {
 
             redisTemplate.delete(key);
 
-            log.info("✅ Synced {} clicks for {}", clicks, shortCode);
+            log.info("Synced {} clicks for {}", clicks, shortCode);
         }
     }
 }

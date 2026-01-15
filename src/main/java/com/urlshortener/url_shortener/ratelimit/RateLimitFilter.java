@@ -33,13 +33,11 @@ public class RateLimitFilter extends OncePerRequestFilter {
         String uri = request.getRequestURI();
         String method = request.getMethod();
 
-        // 🚨 Skip non-POST /api/shorten
         if (uri.equals("/api/shorten") && !"POST".equals(method)) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 🚨 Skip non-API routes
         if (!uri.startsWith("/api/")) {
             filterChain.doFilter(request, response);
             return;
@@ -64,7 +62,6 @@ public class RateLimitFilter extends OncePerRequestFilter {
                 Duration.ofSeconds(config.getWindowSeconds())
         );
 
-        // ✅ Headers ONLY for rate-limited endpoints
         response.setHeader("X-RateLimit-Limit", String.valueOf(result.getLimit()));
         response.setHeader("X-RateLimit-Remaining", String.valueOf(result.getRemaining()));
         response.setHeader("X-RateLimit-Reset", String.valueOf(result.getResetSeconds()));

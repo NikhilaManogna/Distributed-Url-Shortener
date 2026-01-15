@@ -28,7 +28,6 @@ public class GlobalExceptionHandler {
                 .body(body);
     }
 
-    // 👇 IMPORTANT: do NOT return 200 here
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex) {
 

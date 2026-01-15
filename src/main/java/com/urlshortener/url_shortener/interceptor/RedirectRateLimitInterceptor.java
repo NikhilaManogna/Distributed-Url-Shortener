@@ -28,7 +28,6 @@ public class RedirectRateLimitInterceptor implements HandlerInterceptor {
             Object handler
     ) {
 
-        // Apply ONLY to redirect URLs
         String path = request.getRequestURI();
         if (path.startsWith("/api")) {
             return true;

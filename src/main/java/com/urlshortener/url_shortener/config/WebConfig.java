@@ -23,11 +23,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        // 1️⃣ Rate limit API endpoints (/api/**)
+        // Rate limit API endpoints (/api/**)
         registry.addInterceptor(globalRateLimitInterceptor)
                 .addPathPatterns("/api/**");
 
-        // 2️⃣ Rate limit redirect endpoints (/{shortCode})
+        // Rate limit redirect endpoints (/{shortCode})
         registry.addInterceptor(redirectRateLimitInterceptor)
                 .addPathPatterns("/**");
     }

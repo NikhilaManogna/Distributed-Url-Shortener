@@ -30,6 +30,30 @@ The design separates read-heavy and write-heavy operations to achieve low latenc
 
 ---
 
+## 🧩 Architecture & Request Flow
+
+```mermaid
+flowchart LR
+    Client -->|POST /api/shorten| API[Spring Boot API]
+    Client -->|GET /{shortCode}| API
+
+    API --> Redis[(Redis)]
+    API --> DB[(PostgreSQL)]
+
+    Redis -->|Cache Lookup| API
+    Redis -->|Rate Limiting| API
+    Redis -->|Click Counters| API
+
+    Scheduler --> Redis
+    Scheduler --> DB
+
+    subgraph Background Jobs
+        Scheduler[Spring Schedulers]
+    end
+```
+
+---
+
 ##  Tech Stack
 
 | Layer | Technology |
@@ -197,3 +221,4 @@ To contribute:
 2. Create a feature branch
 3. Commit your changes
 4. Open a pull request
+

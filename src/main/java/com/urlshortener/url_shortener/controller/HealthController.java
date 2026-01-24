@@ -8,6 +8,6 @@ public class HealthController {
 
     @GetMapping("/health")
     public String healthCheck() {
-        return "URL Shortener Service is running 🚀";
+        return "URL Shortener Service is running";
     }
 }
